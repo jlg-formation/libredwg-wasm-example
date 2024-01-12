@@ -19,16 +19,17 @@ instance.FS.writeFile(FILENAME, new Uint8Array(dwgFileContent));
 
 const main = instance.cwrap("main", "number", ["number", "number"]);
 
-const makeArgv = (instance, array) => {
-  // ASSUMPTION: a pointer is 4 bytes
+const makeMainArgs = (instance, array) => {
+  // ASSUMPTION: pointer size is 4 bytes
   const ptr = instance._malloc(array.length * 4);
   for (let i = 0; i < array.length; i++) {
     const cstr = instance.stringToNewUTF8(array[i]);
     instance.setValue(ptr + i * 4, cstr, "i32");
   }
-  return ptr;
+  return { argv: ptr, argc: array.length };
 };
 
-const argv = makeArgv(instance, ["dwgread", "-v0", "-O", "JSON", FILENAME]);
+const args = ["dwgread", "-v0", "-O", "JSON", FILENAME];
+const { argv, argc } = makeMainArgs(instance, args);
 
-main(5, argv);
+main(argc, argv);
