@@ -27,9 +27,7 @@ input.addEventListener("change", async () => {
 const dwgread = async (/** @type ArrayBuffer */ dwgFileContent) => {
   const parentElt = $(".json");
   parentElt.innerHTML = "";
-
   const jsonArray = [];
-
   const instance = await Module({
     noInitialRun: true,
     printErr: () => {},
@@ -39,9 +37,7 @@ const dwgread = async (/** @type ArrayBuffer */ dwgFileContent) => {
   });
 
   const FILENAME = "tmp.dwg";
-
   instance.FS.writeFile(FILENAME, new Uint8Array(dwgFileContent));
-
   const main = instance.cwrap("main", "number", ["number", "number"]);
 
   const makeMainArgs = (instance, array) => {
@@ -56,8 +52,6 @@ const dwgread = async (/** @type ArrayBuffer */ dwgFileContent) => {
 
   const args = ["dwgread", "-v0", "-O", "JSON", FILENAME];
   const { argv, argc } = makeMainArgs(instance, args);
-
   main(argc, argv);
-
   parentElt.innerHTML = jsonArray.join("\n");
 };
