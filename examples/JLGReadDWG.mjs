@@ -10,19 +10,10 @@ const dwgFileContent = await fs.readFile(__dirname + "/data/example.dwg");
 
 const instance = await createModule({
   noInitialRun: true,
-  // print: (content) => {
-  //   console.log("stdout: " + content);
-  // },
-
-  printErr: (content) => {
-    // console.log("stderr: ", content);
-  },
-  // preRun: (module) => {
-  //   module.ENV.LIBREDWG_TRACE = 9;
-  // },
+  printErr: () => {},
 });
 
-const FILENAME = "trucxxx.dwg";
+const FILENAME = "tmp.dwg";
 
 instance.FS.writeFile(FILENAME, new Uint8Array(dwgFileContent));
 
