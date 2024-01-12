@@ -1,10 +1,23 @@
 # LibreDWG with WASM
 
-## Install and use
+## Install
+
+Prerequisites:
+
+- OS: Linux or Mac or Linux under Windows (WSL)
+- GNU build essentials (gcc, make, etc.)
+- Emscripten (https://emscripten.org/)
+- curl
 
 ```
-git clone xxx
+git clone https://github.com/jlg-formation/libredwg-wasm-example.git
 make
+```
+
+## Use
+
+```
+make test
 ```
 
 ## License
