@@ -39,10 +39,11 @@ wasm_build: $(OBJECT_LIST)
 test:
 	node test/read-dwg.mjs | tee tmp/example.json
 	
+verysoftclean:
+	rm -rf dist tmp
 
-
-softclean:
-	rm -rf $(LIBREDWG_NAME)
+softclean: verysoftclean
+	rm -rf $(LIBREDWG_NAME) 
 
 clean: softclean
 	rm -rf $(LIBREDWG_ARCHIVE)
