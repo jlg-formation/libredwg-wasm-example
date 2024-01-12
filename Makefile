@@ -14,7 +14,7 @@ $(LIBREDWG_ARCHIVE):
 $(LIBREDWG_NAME): $(LIBREDWG_ARCHIVE)
 	tar -xf $(LIBREDWG_ARCHIVE)
 
-$(OBJECT_LIST): $(LIBREDWG_NAME)
+$(OBJECT_LIST): $(LIBREDWG_NAME) ./correction/dwg2SVG.c ./correction/dwggrep.c
 # applying correctif
 	cp ./correction/dwg2SVG.c ./$(LIBREDWG_NAME)/programs
 	cp ./correction/dwggrep.c ./$(LIBREDWG_NAME)/programs
@@ -34,10 +34,10 @@ wasm_build: $(OBJECT_LIST)
 	-sMODULARIZE \
 	-sEXPORTED_RUNTIME_METHODS=FS,ENV,ccall,cwrap,UTF8ToString,stringToNewUTF8,setValue
 
-.PHONY: clean softclean run
+.PHONY: clean softclean test
 
-run:
-	node examples/JLGReadDWG.mjs | tee tmp/example.json
+test:
+	node test/read-dwg.mjs | tee tmp/example.json
 	
 
 

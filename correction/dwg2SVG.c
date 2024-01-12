@@ -17,6 +17,7 @@
  * modified by Rodrigo Rodrigues da Silva
  * modified by Thien-Thi Nguyen
  * modified by Reini Urban
+ * modified by Jean-Louis Guénégo (JLG)
  *
  * TODO: all entities: 3DSOLID, SHAPE, ARC_DIMENSION, ATTRIB, DIMENSION*,
  *         *SURFACE, GEOPOSITIONMARKER/CAMERA/LIGHT, HATCH, HELIX,
@@ -27,6 +28,7 @@
  *       PLINE: widths, bulges.
  */
 
+// JLG: added _GNU_SOURCE macro for strcasestr
 #define _GNU_SOURCE
 
 #include "../src/config.h"

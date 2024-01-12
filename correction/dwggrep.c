@@ -15,7 +15,10 @@
  * TODO scan the dwg.spec for all text DXF codes, per object.
  *
  * written by Reini Urban
+ * modified by Jean-Louis Guénégo (JLG)
  */
+
+// JLG: added _GNU_SOURCE macro for strcasestr
 #define _GNU_SOURCE
 
 #include "../src/config.h"
@@ -1842,7 +1845,7 @@ int main(int argc, char *argv[])
 #ifdef USE_MATCH_CONTEXT
                         compile_context
 #else
-                         NULL
+                        NULL
 #endif
   );
   if (errcode != 0 && errcode != 100)
@@ -1866,7 +1869,7 @@ int main(int argc, char *argv[])
 #ifdef USE_MATCH_CONTEXT
                           compile_context
 #else
-                           NULL
+                          NULL
 #endif
   );
   free(pattern16);
