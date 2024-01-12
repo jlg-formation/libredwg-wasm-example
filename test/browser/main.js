@@ -29,13 +29,13 @@ const dwgread = async (/** @type ArrayBuffer */ dwgFileContent) => {
   }
   parentElt.innerHTML = "";
 
+  const jsonArray = [];
+
   const instance = await Module({
     noInitialRun: true,
     printErr: () => {},
     print: (str) => {
-      const elt = document.createElement("div");
-      elt.innerHTML = str;
-      parentElt.appendChild(elt);
+      jsonArray.push(str);
     },
   });
 
@@ -58,4 +58,6 @@ const dwgread = async (/** @type ArrayBuffer */ dwgFileContent) => {
   const argv = makeArgv(instance, ["dwgread", "-v0", "-O", "JSON", FILENAME]);
 
   main(5, argv);
+
+  parentElt.innerHTML = jsonArray.join("\n");
 };
