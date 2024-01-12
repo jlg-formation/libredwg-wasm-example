@@ -1,9 +1,20 @@
-LIBREDWG_URL=https://ftp.gnu.org/gnu/libredwg/libredwg-0.12.5.tar.xz
+LIBREDWG_NAME=libredwg-0.12.5
+LIBREDWG_ARCHIVE=$(LIBREDWG_NAME).tar.xz
+LIBREDWG_URL=https://ftp.gnu.org/gnu/libredwg/$(LIBREDWG_ARCHIVE)
 
-libredwg-0.12.5.tar.xz:
-	curl $(LIBREDWG_URL) --output libredwg-0.12.5.tar.xz
+build: $(LIBREDWG_NAME)
+
+$(LIBREDWG_ARCHIVE):
+	curl $(LIBREDWG_URL) --output $(LIBREDWG_ARCHIVE)
+
+$(LIBREDWG_NAME): $(LIBREDWG_ARCHIVE)
+	tar -xf $(LIBREDWG_ARCHIVE)
 
 .PHONY: clean
 
-clean:
-	rm -rf libredwg-0.12.5.tar.xz
+
+softclean:
+	rm -rf $(LIBREDWG_NAME)
+
+clean: softclean
+	rm -rf $(LIBREDWG_ARCHIVE)
