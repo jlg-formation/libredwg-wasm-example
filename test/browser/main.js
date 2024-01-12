@@ -25,9 +25,7 @@ input.addEventListener("change", async () => {
 });
 
 const dwgread = async (/** @type ArrayBuffer */ dwgFileContent) => {
-  console.log("dwgread: start");
   const parentElt = $(".json");
-  console.log("parentElt: ", parentElt);
   parentElt.innerHTML = "";
 
   const jsonArray = [];
