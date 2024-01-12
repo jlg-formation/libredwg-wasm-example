@@ -1,32 +1,33 @@
 var Module = Module;
-console.log("Module: ", Module);
 
-const input = document.querySelector("input[type=file]");
-if (!(input instanceof HTMLInputElement)) {
-  throw new Error("bad input");
-}
+const $ = (cssSelector) => {
+  const elt = document.querySelector(cssSelector);
+  if (elt === null) {
+    throw new Error(`Cannot access element ${cssSelector}`);
+  }
+  return elt;
+};
 
-console.log("input: %O", input);
+/** @type {HTMLInputElement} */
+// @ts-ignore
+const input = $("input[type=file]");
+
 input.addEventListener("change", async () => {
   if (input.files === null) {
-    throw new Error("bad input");
+    throw new Error("It is not a input[type=file]");
   }
   const selectedFile = input.files.item(0);
   if (selectedFile === null) {
-    throw new Error("bad selected file");
+    throw new Error("No selected file.");
   }
-  console.log("selectedFile: ", selectedFile);
-
   const dwgFileContent = await selectedFile.arrayBuffer();
   await dwgread(dwgFileContent);
 });
 
 const dwgread = async (/** @type ArrayBuffer */ dwgFileContent) => {
-  console.log("start dwgread");
-  const parentElt = document.querySelector(".json");
-  if (parentElt === null) {
-    throw new Error("bad elt");
-  }
+  console.log("dwgread: start");
+  const parentElt = $(".json");
+  console.log("parentElt: ", parentElt);
   parentElt.innerHTML = "";
 
   const jsonArray = [];
@@ -45,19 +46,20 @@ const dwgread = async (/** @type ArrayBuffer */ dwgFileContent) => {
 
   const main = instance.cwrap("main", "number", ["number", "number"]);
 
-  const makeArgv = (instance, array) => {
-    // ASSUMPTION: a pointer is 4 bytes
+  const makeMainArgs = (instance, array) => {
+    // ASSUMPTION: pointer size is 4 bytes
     const ptr = instance._malloc(array.length * 4);
     for (let i = 0; i < array.length; i++) {
       const cstr = instance.stringToNewUTF8(array[i]);
       instance.setValue(ptr + i * 4, cstr, "i32");
     }
-    return ptr;
+    return { argv: ptr, argc: array.length };
   };
 
-  const argv = makeArgv(instance, ["dwgread", "-v0", "-O", "JSON", FILENAME]);
+  const args = ["dwgread", "-v0", "-O", "JSON", FILENAME];
+  const { argv, argc } = makeMainArgs(instance, args);
 
-  main(5, argv);
+  main(argc, argv);
 
   parentElt.innerHTML = jsonArray.join("\n");
 };
