@@ -37,7 +37,7 @@ wasm_build: $(OBJECT_LIST)
 .PHONY: clean softclean test
 
 test:
-	node test/node/read-dwg.mjs | tee tmp/example.json
+	node test/node/dwg2json.mjs | tee tmp/example.json
 
 test-web:
 	npx serve
