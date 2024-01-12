@@ -34,7 +34,12 @@ wasm_build: $(OBJECT_LIST)
 	-sMODULARIZE \
 	-sEXPORTED_RUNTIME_METHODS=FS,ENV,ccall,cwrap,UTF8ToString,stringToNewUTF8,setValue
 
-.PHONY: clean softclean
+.PHONY: clean softclean run
+
+run:
+	node examples/JLGReadDWG.mjs | tee tmp/example.json
+	
+
 
 softclean:
 	rm -rf $(LIBREDWG_NAME)
