@@ -37,7 +37,10 @@ wasm_build: $(OBJECT_LIST)
 .PHONY: clean softclean test
 
 test:
-	node test/read-dwg.mjs | tee tmp/example.json
+	node test/node/read-dwg.mjs | tee tmp/example.json
+
+test-web:
+	npx serve
 	
 verysoftclean:
 	rm -rf dist tmp

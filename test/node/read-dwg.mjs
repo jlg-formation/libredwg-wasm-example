@@ -1,12 +1,12 @@
 import fs from "node:fs/promises";
 import { dirname } from "node:path";
 import { fileURLToPath } from "node:url";
-import createModule from "../dist/libredwg.js";
+import createModule from "../../dist/libredwg.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
-const dwgFileContent = await fs.readFile(__dirname + "/data/example.dwg");
+const dwgFileContent = await fs.readFile(__dirname + "/../data/example.dwg");
 
 const instance = await createModule({
   noInitialRun: true,
