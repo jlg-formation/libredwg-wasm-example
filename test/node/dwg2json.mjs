@@ -1,7 +1,7 @@
 import fs from "node:fs/promises";
 import { dirname } from "node:path";
 import { fileURLToPath } from "node:url";
-import createModule from "../../dist/libredwgread.js";
+import createModule from "../../dist/libredwgread.mjs";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);

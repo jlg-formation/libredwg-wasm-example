@@ -1,7 +1,7 @@
 import fs from "node:fs/promises";
 import { dirname } from "node:path";
 import { fileURLToPath } from "node:url";
-import createModule from "../../dist/libredwgwrite.js";
+import createModule from "../../dist/libredwgwrite.mjs";
 
 console.log("start to convert");
 

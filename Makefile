@@ -8,8 +8,8 @@ LIBREDWG_URL=https://ftp.gnu.org/gnu/libredwg/$(LIBREDWG_ARCHIVE)
 
 OBJECT_LIST=$(TMP_DIR)/object_list.txt
 
-READ_EMSCRIPTEN_JS=$(OUTPUT_DIR)/libredwgread.js
-WRITE_EMSCRIPTEN_JS=$(OUTPUT_DIR)/libredwgwrite.js
+READ_EMSCRIPTEN_JS=$(OUTPUT_DIR)/libredwgread.mjs
+WRITE_EMSCRIPTEN_JS=$(OUTPUT_DIR)/libredwgwrite.mjs
 
 build: wasm_build
 
@@ -41,11 +41,13 @@ wasm_build: $(OBJECT_LIST)
 	./$(LIBREDWG_NAME)/programs/dwgread.o -o $(READ_EMSCRIPTEN_JS) \
 	-sEXPORTED_FUNCTIONS=_free,_malloc,_memset,_main \
 	-sMODULARIZE \
+	-sEXPORT_ES6 \
 	-sEXPORTED_RUNTIME_METHODS=FS,ENV,ccall,cwrap,UTF8ToString,stringToNewUTF8,setValue
 	emcc `cat $(OBJECT_LIST)` \
 	./$(LIBREDWG_NAME)/programs/dwgwrite.o -o $(WRITE_EMSCRIPTEN_JS) \
 	-sEXPORTED_FUNCTIONS=_free,_malloc,_memset,_main \
 	-sMODULARIZE \
+	-sEXPORT_ES6 \
 	-sEXPORTED_RUNTIME_METHODS=FS,ENV,ccall,cwrap,UTF8ToString,stringToNewUTF8,setValue
 
 
@@ -65,10 +67,10 @@ test-web:
 	npx serve
 	
 verysoftclean:
-	rm -rf dist tmp
+	rm -rf dist 
 
 softclean: verysoftclean
-	rm -rf $(LIBREDWG_NAME)
+	rm -rf $(LIBREDWG_NAME) tmp
 
 clean: softclean
 	rm -rf $(LIBREDWG_ARCHIVE)

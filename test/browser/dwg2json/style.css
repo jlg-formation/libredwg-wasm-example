@@ -19,6 +19,11 @@ form {
     padding: 0.5em 1em;
   }
 
+  & textarea {
+    border: 0.1em solid black;
+    padding: 0.5em 1em;
+  }
+
   & button {
     margin-top: 3em;
     padding: 0.5em 1em;

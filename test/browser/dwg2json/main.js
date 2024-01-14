@@ -1,17 +1,14 @@
-var Module = Module;
+import { dwgread } from "./dwgread.mjs";
+import { dwgwrite } from "./dwgwrite.mjs";
+import { $ } from "./utils.mjs";
 
-const $ = (cssSelector) => {
-  const elt = document.querySelector(cssSelector);
-  if (elt === null) {
-    throw new Error(`Cannot access element ${cssSelector}`);
-  }
-  return elt;
-};
+// @ts-ignore
+var saveAs = window.saveAs;
+console.log("saveAs: ", saveAs);
 
 /** @type {HTMLInputElement} */
 // @ts-ignore
 const input = $("input[type=file]");
-
 input.addEventListener("change", async () => {
   if (input.files === null) {
     throw new Error("It is not a input[type=file]");
@@ -24,34 +21,16 @@ input.addEventListener("change", async () => {
   await dwgread(dwgFileContent);
 });
 
-const dwgread = async (/** @type ArrayBuffer */ dwgFileContent) => {
-  const parentElt = $(".json");
-  parentElt.innerHTML = "";
-  const jsonArray = [];
-  const instance = await Module({
-    noInitialRun: true,
-    printErr: () => {},
-    print: (str) => {
-      jsonArray.push(str);
-    },
-  });
+const saveAsDWGBtn = $("button.saveDWG");
+saveAsDWGBtn.addEventListener("click", async () => {
+  console.log("save as DWG");
 
-  const FILENAME = "tmp.dwg";
-  instance.FS.writeFile(FILENAME, new Uint8Array(dwgFileContent));
-  const main = instance.cwrap("main", "number", ["number", "number"]);
+  // take the JSON and put it in the WASM file system.
+  // @ts-ignore
+  const json = JSON.stringify(JSON.parse($("textarea").value));
+  console.log("json: ", json);
 
-  const makeMainArgs = (instance, array) => {
-    // ASSUMPTION: pointer size is 4 bytes
-    const ptr = instance._malloc(array.length * 4);
-    for (let i = 0; i < array.length; i++) {
-      const cstr = instance.stringToNewUTF8(array[i]);
-      instance.setValue(ptr + i * 4, cstr, "i32");
-    }
-    return { argv: ptr, argc: array.length };
-  };
-
-  const args = ["dwgread", "-v0", "-O", "JSON", FILENAME];
-  const { argv, argc } = makeMainArgs(instance, args);
-  main(argc, argv);
-  parentElt.innerHTML = jsonArray.join("\n");
-};
+  const dwgBuffer = await dwgwrite(json);
+  const dwgContentBlob = new Blob([dwgBuffer]);
+  saveAs(dwgContentBlob, "truc.dwg");
+});
