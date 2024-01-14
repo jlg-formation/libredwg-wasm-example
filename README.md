@@ -27,6 +27,11 @@ MIT Licence
 LibreDWG (GNU GPLv3) is used and a very little bit modified so it can compile properly with emscripten.
 Modification are indicated in each modified files.
 
+## DWG Specification
+
+This document is the most interesting for DWG documentation:
+https://www.opendesign.com/files/guestdownloads/OpenDesign_Specification_for_.dwg_files.pdf
+
 ## Author
 
 Jean-Louis GUENEGO <jlguenego@gmail.com>

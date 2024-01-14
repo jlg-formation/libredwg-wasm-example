@@ -1,21 +1,27 @@
 import fs from "node:fs/promises";
 import { dirname } from "node:path";
 import { fileURLToPath } from "node:url";
-import createModule from "../../dist/libredwg.js";
+import createModule from "../../dist/libredwgwrite.js";
+
+console.log("start to convert");
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
-const jsonFileContent = await fs.readFile(__dirname + "/../data/example.json");
+const JSON_FILENAME = __dirname + "/../data/example.json";
+const DWG_FILENAME = __dirname + "/../../tmp/new_example.dwg";
+const WASM_JSON_FILENAME = "tmp.json";
+const WASM_DWG_FILENAME = "tmp.dwg";
+
+const jsonFileContent = await fs.readFile(JSON_FILENAME);
+console.log("jsonFileContent: ", jsonFileContent);
 
 const instance = await createModule({
   noInitialRun: true,
   printErr: () => {},
 });
 
-const FILENAME = "tmp.json";
-
-instance.FS.writeFile(FILENAME, new Uint8Array(jsonFileContent));
+instance.FS.writeFile(WASM_JSON_FILENAME, new Uint8Array(jsonFileContent));
 
 const main = instance.cwrap("main", "number", ["number", "number"]);
 
@@ -29,7 +35,21 @@ const makeMainArgs = (instance, array) => {
   return { argv: ptr, argc: array.length };
 };
 
-const args = ["dwgread", "-v0", "-O", "JSON", FILENAME];
+const args = [
+  "dwgwrite",
+  "-v0",
+  "-y",
+  "-I",
+  "JSON",
+  "-o",
+  WASM_DWG_FILENAME,
+  WASM_JSON_FILENAME,
+];
 const { argv, argc } = makeMainArgs(instance, args);
 
+console.log("about to execute main");
 main(argc, argv);
+console.log("main executed.");
+
+const buffer = instance.FS.readFile(WASM_DWG_FILENAME);
+await fs.writeFile(DWG_FILENAME, buffer);
