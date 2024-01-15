@@ -40,17 +40,14 @@ wasm_build: $(OBJECT_LIST)
 	mkdir -p $(OUTPUT_DIR)
 	emcc `cat $(OBJECT_LIST)` \
 	./$(LIBREDWG_NAME)/programs/dwgread.o -o $(READ_EMSCRIPTEN_JS) \
+	-sMODULARIZE -sEXPORT_ES6 \
 	-sEXPORTED_FUNCTIONS=_free,_malloc,_memset,_main \
-	-sMODULARIZE \
-	-sEXPORT_ES6 \
 	-sEXPORTED_RUNTIME_METHODS=FS,ENV,ccall,cwrap,UTF8ToString,stringToNewUTF8,setValue
 	emcc `cat $(OBJECT_LIST)` \
 	./$(LIBREDWG_NAME)/programs/dwgwrite.o -o $(WRITE_EMSCRIPTEN_JS) \
+	-sMODULARIZE -sEXPORT_ES6 \
 	-sEXPORTED_FUNCTIONS=_free,_malloc,_memset,_main \
-	-sMODULARIZE \
-	-sEXPORT_ES6 \
 	-sEXPORTED_RUNTIME_METHODS=FS,ENV,ccall,cwrap,UTF8ToString,stringToNewUTF8,setValue
-
 
 .PHONY: clean softclean test
 
