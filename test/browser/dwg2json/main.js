@@ -3,8 +3,7 @@ import { dwgwrite } from "./dwgwrite.mjs";
 import { $ } from "./utils.mjs";
 
 // @ts-ignore
-var saveAs = window.saveAs;
-console.log("saveAs: ", saveAs);
+const saveAs = window.saveAs;
 
 /** @type {HTMLInputElement} */
 // @ts-ignore
@@ -23,12 +22,8 @@ input.addEventListener("change", async () => {
 
 const saveAsDWGBtn = $("button.saveDWG");
 saveAsDWGBtn.addEventListener("click", async () => {
-  console.log("save as DWG");
-
-  // take the JSON and put it in the WASM file system.
   // @ts-ignore
   const json = JSON.stringify(JSON.parse($("textarea").value));
-  console.log("json: ", json);
 
   const dwgBuffer = await dwgwrite(json);
   const dwgContentBlob = new Blob([dwgBuffer]);
