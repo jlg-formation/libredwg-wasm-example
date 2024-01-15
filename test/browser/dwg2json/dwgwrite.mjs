@@ -1,4 +1,4 @@
-import Module from "../../../dist/libredwgwrite.mjs";
+import createModuleInstance from "../../../dist/libredwgwrite.mjs";
 
 export const dwgwrite = async (/** @type {string} */ json) => {
   console.log("json: ", json);
@@ -6,7 +6,7 @@ export const dwgwrite = async (/** @type {string} */ json) => {
   const WASM_JSON_FILENAME = "tmp.json";
   const WASM_DWG_FILENAME = "tmp.dwg";
 
-  const instance = await Module({
+  const instance = await createModuleInstance({
     noInitialRun: true,
     printErr: () => {},
   });

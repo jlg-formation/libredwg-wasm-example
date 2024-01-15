@@ -1,11 +1,11 @@
-import Module from "../../../dist/libredwgread.mjs";
+import createModuleInstance from "../../../dist/libredwgread.mjs";
 import { $texterea } from "./utils.mjs";
 
 export const dwgread = async (/** @type ArrayBuffer */ dwgFileContent) => {
   const textArea = $texterea("textarea");
   textArea.value = "";
   const jsonArray = [];
-  const instance = await Module({
+  const instance = await createModuleInstance({
     noInitialRun: true,
     printErr: () => {},
     print: (str) => {
