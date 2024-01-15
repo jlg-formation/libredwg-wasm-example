@@ -2,4 +2,4 @@
 libredwg-*/
 tmp/
 dist/
-
+test/output/

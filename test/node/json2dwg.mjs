@@ -9,7 +9,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
 const JSON_FILENAME = __dirname + "/../data/example.json";
-const DWG_FILENAME = __dirname + "/../../tmp/new_example.dwg";
+const DWG_FILENAME = __dirname + "/../../test/output/new_example.dwg";
 const WASM_JSON_FILENAME = "tmp.json";
 const WASM_DWG_FILENAME = "tmp.dwg";
 

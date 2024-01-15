@@ -1,5 +1,6 @@
 TMP_DIR=./tmp
 OUTPUT_DIR=./dist
+TEST_OUTPUT_DIR=./test/output
 
 LIBREDWG_NAME=libredwg-0.12.5
 LIBREDWG_ARCHIVE=$(LIBREDWG_NAME).tar.xz
@@ -55,18 +56,22 @@ wasm_build: $(OBJECT_LIST)
 
 test: dwg2json json2dwg
 	
-	
+test_setup:
+	mkdir -p $(TEST_OUTPUT_DIR)
 
-dwg2json:
-	node test/node/dwg2json.mjs | tee tmp/example.json
+dwg2json: test_setup
+	node test/node/dwg2json.mjs | tee $(TEST_OUTPUT_DIR)/example.json
 
-json2dwg:
+json2dwg: test_setup
 	node test/node/json2dwg.mjs
 
-test-web:
+test_web:
 	npx serve
+
+test_clean:
+	rm -rf $(TEST_OUTPUT_DIR)
 	
-verysoftclean:
+verysoftclean: test_clean
 	rm -rf dist 
 
 softclean: verysoftclean
