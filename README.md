@@ -23,6 +23,13 @@ make
 make test
 ```
 
+### Web server test
+
+```
+cd libredwg-wasm-example
+npx serve
+```
+
 ## License
 
 MIT Licence
