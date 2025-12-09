@@ -9,8 +9,11 @@ Prerequisites:
 - Emscripten (https://emscripten.org/)
 - curl
 
+Note: Use Vscode to create a [dev container](https://code.visualstudio.com/docs/devcontainers/containers) so you can have directly a docker container with all prerequisites.
+
 ```
 git clone https://github.com/jlg-formation/libredwg-wasm-example.git
+cd libredwg-wasm-example
 make
 ```
 
